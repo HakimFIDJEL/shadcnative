@@ -51,7 +51,7 @@ export default function Screen() {
   const [search, setSearch] = useState<string>("");
 
   const [filteredComponents, setFilteredComponents] =
-    useState<Array<string>>(myComponents);
+    useState<string[]>(myComponents);
 
   // Keyboard functions
   const onShowKeyboard = () => {
@@ -87,7 +87,7 @@ export default function Screen() {
   });
 
   return (
-    <RootView className="relative flex-1">
+    <RootView className="relative flex-1 bg-background">
       {/* Content */}
       <View className="flex-1">
         {/* Header */}

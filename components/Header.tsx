@@ -5,9 +5,11 @@ import { View } from "react-native";
 import Animated, {
   SharedValue,
   useAnimatedStyle,
+  withTiming,
 } from "react-native-reanimated";
 import { Button } from "./ui/button";
 import { Icon } from "./ui/icon";
+import { Separator } from "./ui/separator";
 import { Text } from "./ui/text";
 
 type Props = {
@@ -16,38 +18,37 @@ type Props = {
 };
 
 export default function Header({ title, scrollY }: Props) {
-  // Style animé pour la bordure
-  const animatedHeaderStyle = useAnimatedStyle(() => {
+  const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
-      borderBottomWidth: scrollY.value > 0 ? 1 : 0,
-      borderBottomColor: "var(--border)", // ou ta couleur de bordure
-    };
-  });
-
-  // Style animé pour le texte (opacité)
-  const animatedTextStyle = useAnimatedStyle(() => {
-    return {
-      opacity: scrollY.value > 0 ? 1 : 0,
+      opacity: withTiming(scrollY.value > 0 ? 1 : 0, { duration: 300 }),
     };
   });
 
   return (
-    <Animated.View
-      style={animatedHeaderStyle}
-      className={cn(
-        "flex items-center flex-row align-middle justify-between",
-        "px-2 py-1",
-      )}
-    >
-      {/* Placeholder */}
-      <View className="size-9" />
-      {/* Text */}
-      <Animated.View style={animatedTextStyle}>
-        <Text className={cn("text-foreground font-semibold")}>{title}</Text>
+    <View>
+      {/* Header */}
+      <View
+        className={cn(
+          "flex items-center flex-row align-middle justify-between",
+          "px-2 py-1",
+        )}
+      >
+        {/* Placeholder */}
+        <View className="size-9" />
+        {/* Text */}
+        <Animated.View style={headerAnimatedStyle}>
+          <Text className={cn("text-foreground font-semibold")}>{title}</Text>
+        </Animated.View>
+        {/* Button */}
+        <ThemeToggle className="self-end" />
+      </View>
+
+      {/* Separator */}
+
+      <Animated.View style={headerAnimatedStyle}>
+        <Separator />
       </Animated.View>
-      {/* Button */}
-      <ThemeToggle className="self-end" />
-    </Animated.View>
+    </View>
   );
 }
 
@@ -56,7 +57,7 @@ type ThemeToggleProps = {
 };
 
 function ThemeToggle({ className }: ThemeToggleProps) {
-  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const { toggleColorScheme } = useColorScheme();
 
   return (
     <Button

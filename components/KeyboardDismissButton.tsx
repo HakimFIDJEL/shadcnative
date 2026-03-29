@@ -21,13 +21,13 @@ export function KeyboardDismissButton({
       {inputFocus && (
         <Animated.View
           entering={FadeInDown.duration(300)}
-          exiting={FadeOutDown.duration(100)}
+          exiting={FadeOutDown.duration(200)}
           className="flex-row justify-end p-4 pointer-events-auto"
         >
           <Button
             variant="outline"
             onPress={onDismissKeyboard}
-            className="rounded-full bg-background shadow-md border-border"
+            className="rounded-full !bg-background shadow-md border-border"
           >
             <Icon as={KeyboardOff} size={20} className="text-foreground" />
           </Button>
